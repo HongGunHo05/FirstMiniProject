@@ -1,0 +1,657 @@
+{\rtf1\ansi\ansicpg949\cocoartf2639
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset129 AppleSDGothicNeo-Regular;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 DROP TABLE PAY;\
+DROP TABLE RESERVATION;\
+DROP TABLE ROOMINFORMATION CASCADE CONSTRAINTS;\
+DROP TABLE ROOMOPTION CASCADE CONSTRAINTS;\
+DROP TABLE CUSTOMER;\
+DROP TABLE FACILITY;\
+DROP TABLE EMP;\
+DROP TABLE PAYWITH;\
+DROP TABLE DISCOUNT;\
+----------------------------------------------------------------------\
+CREATE TABLE DISCOUNT(\
+DIS_NO VARCHAR2(20) CONSTRAINT DIS_NO_pk PRIMARY key, \
+DIS_CARD varchar2(20) not null,\
+DIS_RATE varchar2(20) not null\
+);\
+-----------------------------------------------------------------------\
+CREATE TABLE PAYWITH(\
+PW_NO VARCHAR2(20) NOT NULL CONSTRAINT PW_NO_pk PRIMARY key, \
+PAYWITH varchar2(20) not null,\
+DIS_NO varchar2(20) CONSTRAINT DIS_NO_fk REFERENCES DISCOUNT(DIS_NO)\
+);\
+------------------------------------------------------------------------\
+CREATE TABLE EMP(\
+E_NO VARCHAR2(20) CONSTRAINT E_NO_pk PRIMARY key, \
+E_NAME varchar2(20) not null,\
+E_BIRTH varchar2(20) not null,\
+E_TYPE varchar2(20) not null,\
+E_PHONE varchar2(20) not null,\
+E_POSITION varchar2(20) not null\
+);\
+-------------------------------------------------------------------------\
+CREATE TABLE FACILITY(\
+F_NO VARCHAR2(20) CONSTRAINT F_NO_pk PRIMARY key, \
+F_NAME varchar2(20) not null,\
+F_OPEN varchar2(20) not null,\
+F_CLOSE varchar2(20) not null,\
+F_LOCATION varchar2(20) not null,\
+F_CALL varchar2(20) not null\
+);\
+-------------------------------------------------------------------------\
+CREATE TABLE CUSTOMER(\
+C_NO NUMBER(20) CONSTRAINT C_NO_pk PRIMARY key, \
+C_NAME varchar2(20) not null,\
+C_BIRTH varchar2(20) not null,\
+C_PHONE varchar2(20) not null,\
+C_ADDRESS varchar2(30) not null,\
+C_SEX varchar2(20) not null,\
+C_EMAIL varchar2(20) not null,\
+C_ID varchar2(20) not null,\
+C_PASSWORD varchar2(20) not null\
+);\
+---------------------------------------------------------------------------\
+CREATE TABLE ROOMOPTION(\
+RO_NO VARCHAR2(20) CONSTRAINT RO_NO_pk PRIMARY key, \
+RO_SERVICE varchar2(60) not null,\
+RO_PRICE NUMBER(20) not null\
+);\
+-------------------------------------------------------------------------\
+CREATE TABLE ROOMINFORMATION(\
+RI_NO VARCHAR2(20) CONSTRAINT RI_NO_pk PRIMARY key, \
+RI_TYPE varchar2(30) not null,\
+RI_SIZE varchar2(20) not null,\
+RI_VIEW varchar2(20) not null,\
+RI_PRICE NUMBER(20) not null\
+);\
+-------------------------------------------------------------------------\
+CREATE TABLE RESERVATION(\
+RE_NO VARCHAR2(20) NOT NULL CONSTRAINT RE_NO_pk PRIMARY key, \
+RI_NO varchar2(20) NOT NULL CONSTRAINT RE_RI_NO_fk REFERENCES ROOMINFORMATION(RI_NO),\
+RE_DATE varchar2(20) not null,\
+RO_NO varchar2(20) CONSTRAINT RE_RO_NO_fk REFERENCES ROOMOPTION(RO_NO),\
+C_NO NUMBER(20) CONSTRAINT RE_C_NO_fk REFERENCES CUSTOMER(C_NO),\
+RE_PRICE NUMBER(20)\
+);\
+-------------------------------------------------------------------------\
+CREATE TABLE PAY(\
+P_NO VARCHAR2(20) CONSTRAINT P_NO_pk PRIMARY key, \
+PW_NO varchar2(20) not null CONSTRAINT P_PW_NO_fk REFERENCES PAYWITH(PW_NO),\
+E_NO varchar2(20) not null CONSTRAINT P_E_NO_fk REFERENCES EMP(E_NO),\
+RE_NO varchar2(20) not null CONSTRAINT P_RE_NO_fk REFERENCES RESERVATION(RE_NO)\
+);\
+\
+-----------------------------------------------------------\
+\
+insert into DISCOUNT VALUES(1001,'
+\f1 \'bb\'ef\'bc\'ba
+\f0 ','10%');\
+insert into DISCOUNT VALUES(1002,'
+\f1 \'c7\'f6\'b4\'eb
+\f0 ','10%');\
+insert into DISCOUNT VALUES(1003,'
+\f1 \'b7\'d4\'b5\'a5
+\f0 ','10%');\
+insert into DISCOUNT VALUES(2001,'
+\f1 \'b1\'b9\'b9\'ce
+\f0 ','5%');\
+insert into DISCOUNT VALUES(2002,'
+\f1 \'b3\'f3\'c7\'f9
+\f0 ','5%');\
+insert into DISCOUNT VALUES(2003,'
+\f1 \'bd\'c5\'c7\'d1
+\f0 ','5%');\
+insert into DISCOUNT VALUES(2004,'
+\f1 \'c7\'cf\'b3\'aa
+\f0 ','5%');\
+insert into DISCOUNT VALUES(2005,'
+\f1 \'bf\'ec\'b8\'ae
+\f0 ','5%');\
+insert into DISCOUNT VALUES(2006,'IBK','5%');\
+\
+INSERT INTO EMP VALUES(000001,'
+\f1 \'bd\'c5\'bc\'d2\'c7\'fd
+\f0 ',900101,'
+\f1 \'c1\'a4\'c1\'f7\'bf\'f8
+\f0 ','010-0101-0101','
+\f1 \'bc\'b1\'c0\'d3
+\f0 ');\
+INSERT INTO EMP VALUES(000002,'
+\f1 \'b1\'e8\'bc\'d2\'bf\'b5
+\f0 ',900202,'
+\f1 \'c1\'a4\'c1\'f7\'bf\'f8
+\f0 ','010-0202-0202','
+\f1 \'bc\'b1\'c0\'d3
+\f0 ');\
+INSERT INTO EMP VALUES(000003,'
+\f1 \'b1\'e8\'bc\'f6\'c0\'ba
+\f0 ',900303,'
+\f1 \'c1\'a4\'c1\'f7\'bf\'f8
+\f0 ','010-0303-0303','
+\f1 \'bc\'b1\'c0\'d3
+\f0 ');\
+INSERT INTO EMP VALUES(000004,'
+\f1 \'c0\'cc\'b8\'ed\'c8\'c6
+\f0 ',900404,'
+\f1 \'c1\'a4\'c1\'f7\'bf\'f8
+\f0 ','010-0404-0404','
+\f1 \'bc\'b1\'c0\'d3
+\f0 ');\
+INSERT INTO EMP VALUES(000005,'
+\f1 \'b9\'da\'c1\'a4\'c0\'ba
+\f0 ',900505,'
+\f1 \'c1\'a4\'c1\'f7\'bf\'f8
+\f0 ','010-0505-0505','
+\f1 \'bc\'b1\'c0\'d3
+\f0 ');\
+INSERT INTO EMP VALUES(000006,'
+\f1 \'b9\'e8\'b9\'ce\'c8\'a3
+\f0 ',900606,'
+\f1 \'c1\'a4\'c1\'f7\'bf\'f8
+\f0 ','010-0606-0606','
+\f1 \'bc\'b1\'c0\'d3
+\f0 ');\
+INSERT INTO EMP VALUES(000007,'
+\f1 \'c7\'e3\'b9\'ce
+\f0 ',900707,'
+\f1 \'c1\'a4\'c1\'f7\'bf\'f8
+\f0 ','010-0707-0707','
+\f1 \'bc\'b1\'c0\'d3
+\f0 ');\
+INSERT INTO EMP VALUES(000008,'
+\f1 \'c0\'cc\'b5\'b5\'bf\'ac
+\f0 ',900808,'
+\f1 \'c1\'a4\'c1\'f7\'bf\'f8
+\f0 ','010-0808-0808','
+\f1 \'b4\'eb\'bb\'a7
+\f0 ');\
+\
+INSERT INTO PAYWITH VALUES('PW100','
+\f1 \'b9\'ab\'c5\'eb\'c0\'e5
+\f0 ',NULL);\
+INSERT INTO PAYWITH VALUES('PW101','
+\f1 \'bd\'c5\'bf\'eb\'c4\'ab\'b5\'e5
+\f0 ',1001);\
+INSERT INTO PAYWITH VALUES('PW102','
+\f1 \'bd\'c5\'bf\'eb\'c4\'ab\'b5\'e5
+\f0 ',1002);\
+INSERT INTO PAYWITH VALUES('PW103','
+\f1 \'bd\'c5\'bf\'eb\'c4\'ab\'b5\'e5
+\f0 ',1003);\
+INSERT INTO PAYWITH VALUES('PW201','
+\f1 \'bd\'c5\'bf\'eb\'c4\'ab\'b5\'e5
+\f0 ',2001);\
+INSERT INTO PAYWITH VALUES('PW202','
+\f1 \'bd\'c5\'bf\'eb\'c4\'ab\'b5\'e5
+\f0 ',2002);\
+INSERT INTO PAYWITH VALUES('PW203','
+\f1 \'bd\'c5\'bf\'eb\'c4\'ab\'b5\'e5
+\f0 ',2003);\
+INSERT INTO PAYWITH VALUES('PW204','
+\f1 \'bd\'c5\'bf\'eb\'c4\'ab\'b5\'e5
+\f0 ',2004);\
+INSERT INTO PAYWITH VALUES('PW205','
+\f1 \'bd\'c5\'bf\'eb\'c4\'ab\'b5\'e5
+\f0 ',2005);\
+INSERT INTO PAYWITH VALUES('PW206','
+\f1 \'bd\'c5\'bf\'eb\'c4\'ab\'b5\'e5
+\f0 ',2006);\
+\
+INSERT INTO FACILITY VALUES(10000001,'
+\f1 \'b3\'eb\'b7\'a1\'b9\'e6
+\f0 ','14:00','22:00','B2','02-1111-1111');\
+INSERT INTO FACILITY VALUES(10000002,'
+\f1 \'bc\'bc\'c5\'b9\'bd\'c7
+\f0 ','12:00','22:00','F10','02-2222-2222');\
+INSERT INTO FACILITY VALUES(10000003,'
+\f1 \'bc\'f6\'bf\'b5\'c0\'e5
+\f0 ','09:00','22:00','F10','02-3333-3333');\
+INSERT INTO FACILITY VALUES(10000004,'
+\f1 \'b1\'b8\'b3\'bb\'bd\'c4\'b4\'e7
+\f0 ','06:00','20:00','B1','02-4444-4444');\
+INSERT INTO FACILITY VALUES(10000005,'
+\f1 \'b5\'b5\'bc\'ad\'b0\'fc
+\f0 ','09:00','22:00','F14','02-5555-5555');\
+INSERT INTO FACILITY VALUES(10000006,'
+\f1 \'c7\'ef\'bd\'ba\'c0\'e5
+\f0 ','06:00','22:00','B2','02-6666-6666');\
+INSERT INTO FACILITY VALUES(10000007,'
+\f1 \'c2\'f2\'c1\'fa\'b9\'e6
+\f0 ','07:00','22:00','F10','02-7777-7777');\
+INSERT INTO FACILITY VALUES(10000008,'
+\f1 \'be\'e7\'c8\'a3\'bd\'c7
+\f0 ','00:00','24:00','F1','02-8888-8888');\
+\
+INSERT INTO CUSTOMER VALUES(1,'
+\f1 \'b0\'ad\'c7\'f6\'b1\'b8
+\f0 ',950101,'010-1212-1212','
+\f1 \'b0\'e6\'bb\'f3\'ba\'cf\'b5\'b5
+\f0  
+\f1 \'b1\'b8\'b9\'cc\'bd\'c3
+\f0 ','
+\f1 \'b3\'b2
+\f0 ','AAA@gmail.com','AAAAAA','AAA111');\
+INSERT INTO CUSTOMER VALUES(2,'
+\f1 \'b1\'e8\'b5\'bf\'bd\'c5
+\f0 ',970205,'010-2121-2121','
+\f1 \'b0\'ad\'bf\'f8\'b5\'b5
+\f0  
+\f1 \'c3\'e1\'c3\'b5\'bd\'c3
+\f0 ','
+\f1 \'b3\'b2
+\f0 ','BBB@gmail.com','BBBBBB','BBB111');\
+INSERT INTO CUSTOMER VALUES(3,'
+\f1 \'b1\'e8\'b9\'ce\'bc\'ae
+\f0 ',940101,'010-1313-1313','
+\f1 \'bc\'ad\'bf\'ef\'c6\'af\'ba\'b0\'bd\'c3
+\f0 ','
+\f1 \'b3\'b2
+\f0 ','CCC@gmail.com','CCCCCC','CCC111');\
+INSERT INTO CUSTOMER VALUES(4,'
+\f1 \'b1\'e8\'ba\'b8\'b9\'ce
+\f0 ',970101,'010-3131-3131','
+\f1 \'bf\'ef\'bb\'ea\'b1\'a4\'bf\'aa\'bd\'c3
+\f0 ','
+\f1 \'bf\'a9
+\f0 ','DDD@gmail.com','DDDDDD','DDD111');\
+INSERT INTO CUSTOMER VALUES(5,'
+\f1 \'b1\'e8\'bb\'f3\'bf\'ac
+\f0 ',970404,'010-1414-1414','
+\f1 \'b0\'e6\'b1\'e2\'b5\'b5
+\f0  
+\f1 \'b0\'ed\'be\'e7\'bd\'c3
+\f0 ','
+\f1 \'b3\'b2
+\f0 ','EEE@gmail.com','EEEEEE','EEE111');\
+INSERT INTO CUSTOMER VALUES(6,'
+\f1 \'b1\'e8\'bc\'b1\'c7\'fc
+\f0 ',970505,'010-4141-4141','
+\f1 \'bc\'ad\'bf\'ef\'c6\'af\'ba\'b0\'bd\'c3
+\f0 ','
+\f1 \'b3\'b2
+\f0 ','FFF@gmail.com','FFFFFF','FFF111');\
+INSERT INTO CUSTOMER VALUES(7,'
+\f1 \'b1\'e8\'c5\'c2\'c0\'ba
+\f0 ',960101,'010-1515-1515','
+\f1 \'bc\'ad\'bf\'ef\'c6\'af\'ba\'b0\'bd\'c3
+\f0 ','
+\f1 \'bf\'a9
+\f0 ','GGG@gmail.com','GGGGGG','GGG111');\
+INSERT INTO CUSTOMER VALUES(8,'
+\f1 \'b7\'f9\'c1\'a4\'bc\'f6
+\f0 ',960404,'010-5151-5151','
+\f1 \'b0\'e6\'b1\'e2\'b5\'b5
+\f0  
+\f1 \'b3\'b2\'be\'e7\'c1\'d6\'bd\'c3
+\f0 ','
+\f1 \'b3\'b2
+\f0 ','HHH@gmail.com','HHHHHH','HHH111');\
+INSERT INTO CUSTOMER VALUES(9,'
+\f1 \'b7\'f9\'c8\'a3\'c1\'f8
+\f0 ',960505,'010-1616-1616','
+\f1 \'b0\'e6\'b1\'e2\'b5\'b5
+\f0  
+\f1 \'bc\'f6\'bf\'f8\'bd\'c3
+\f0 ','
+\f1 \'b3\'b2
+\f0 ','III@gmail.com','IIIIII','III111');\
+INSERT INTO CUSTOMER VALUES(10,'
+\f1 \'b9\'da\'bc\'ad\'c8\'f1
+\f0 ',940303,'010-6161-6161','
+\f1 \'c0\'ce\'c3\'b5\'b1\'a4\'bf\'aa\'bd\'c3
+\f0 ','
+\f1 \'bf\'a9
+\f0 ','JJJ@gmail.com','JJJJJJ','JJJ111');\
+INSERT INTO CUSTOMER VALUES(11,'
+\f1 \'b9\'da\'bd\'c2\'b9\'ce
+\f0 ',940505,'010-1717-1717','
+\f1 \'bc\'ad\'bf\'ef\'c6\'af\'ba\'b0\'bd\'c3
+\f0 ','
+\f1 \'b3\'b2
+\f0 ','KKK@gmail.com','KKKKKK','KKK111');\
+INSERT INTO CUSTOMER VALUES(12,'
+\f1 \'b9\'da\'c5\'c2\'b1\'d4
+\f0 ',971111,'010-7171-7171','
+\f1 \'ba\'ce\'bb\'ea\'b1\'a4\'bf\'aa\'bd\'c3
+\f0 ','
+\f1 \'b3\'b2
+\f0 ','LLL@gmail.com','LLLLLL','LLL111');\
+INSERT INTO CUSTOMER VALUES(13,'
+\f1 \'bc\'ad\'b9\'ce\'bc\'ae
+\f0 ',980404,'010-1818-1818','
+\f1 \'c3\'e6\'c3\'bb\'ba\'cf\'b5\'b5
+\f0  
+\f1 \'c1\'f8\'c3\'b5\'bd\'c3
+\f0 ','
+\f1 \'b3\'b2
+\f0 ','MMM@gmail.com','MMMMMM','MMM111');\
+INSERT INTO CUSTOMER VALUES(14,'
+\f1 \'be\'c8\'bf\'b9\'c1\'f6
+\f0 ',980505,'010-8181-8181','
+\f1 \'b0\'e6\'b1\'e2\'b5\'b5
+\f0  
+\f1 \'bc\'f6\'bf\'f8\'bd\'c3
+\f0 ','
+\f1 \'bf\'a9
+\f0 ','NNN@gmail.com','NNNNNN','NNN111');\
+INSERT INTO CUSTOMER VALUES(15,'
+\f1 \'c0\'cc\'b1\'e2\'c2\'f9
+\f0 ',950707,'010-9191-9191','
+\f1 \'bc\'ad\'bf\'ef\'c6\'af\'ba\'b0\'bd\'c3
+\f0 ','
+\f1 \'b3\'b2
+\f0 ','OOO@gmail.com','OOOOOO','OOO111');\
+INSERT INTO CUSTOMER VALUES(16,'
+\f1 \'c0\'cc\'c1\'a4\'c7\'cf
+\f0 ',920303,'010-1919-1919','
+\f1 \'bc\'bc\'c1\'be\'c6\'af\'ba\'b0\'c0\'da\'c4\'a1\'bd\'c3
+\f0 ','
+\f1 \'bf\'a9
+\f0 ','PPP@gmail.com','PPPPPP','PPP111');\
+INSERT INTO CUSTOMER VALUES(17,'
+\f1 \'c0\'cc\'c5\'c2\'c8\'f1
+\f0 ',970909,'010-3333-3333','
+\f1 \'bc\'ad\'bf\'ef\'c6\'af\'ba\'b0\'bd\'c3
+\f0 ','
+\f1 \'b3\'b2
+\f0 ','QQQ@gmail.com','QQQQQQ','QQQ111');\
+INSERT INTO CUSTOMER VALUES(18,'
+\f1 \'c0\'fc\'c1\'f6\'c7\'f6
+\f0 ',990303,'010-4444-4444','
+\f1 \'ba\'ce\'bb\'ea\'b1\'a4\'bf\'aa\'bd\'c3
+\f0 ','
+\f1 \'bf\'a9
+\f0 ','RRR@gmail.com','RRRRRR','RRR111');\
+INSERT INTO CUSTOMER VALUES(19,'
+\f1 \'c1\'a4\'b8\'ed\'b1\'b8
+\f0 ',951212,'010-5555-5555','
+\f1 \'b0\'e6\'b1\'e2\'b5\'b5
+\f0  
+\f1 \'b0\'ed\'be\'e7\'bd\'c3
+\f0 ','
+\f1 \'b3\'b2
+\f0 ','SSS@gmail.com','SSSSSS','SSS111');\
+INSERT INTO CUSTOMER VALUES(20,'
+\f1 \'c8\'ab\'b0\'c7\'c8\'a3
+\f0 ',980707,'010-6666-6666','
+\f1 \'b0\'e6\'b1\'e2\'b5\'b5
+\f0  
+\f1 \'b3\'b2\'be\'e7\'c1\'d6\'bd\'c3
+\f0 ','
+\f1 \'b3\'b2
+\f0 ','TTT@gmail.com','TTTTTT','TTT111');\
+INSERT INTO CUSTOMER VALUES(21,'
+\f1 \'c3\'d6\'bd\'c5\'c7\'fc
+\f0 ',950101,'010-7777-7777','
+\f1 \'bc\'ad\'bf\'ef\'c6\'af\'ba\'b0\'bd\'c3
+\f0 ','
+\f1 \'bf\'a9
+\f0 ','UUU@gmail.com','UUUUUU','UUU111');\
+\
+INSERT INTO ROOMOPTION VALUES(000,'
+\f1 \'c1\'b6\'bd\'c4
+\f0 (
+\f1 \'bc\'ba\'c0\'ce
+\f0 1
+\f1 \'c0\'ce
+\f0 )',35000);\
+INSERT INTO ROOMOPTION VALUES(001,'
+\f1 \'c1\'b6\'bd\'c4
+\f0 (
+\f1 \'bc\'ba\'c0\'ce
+\f0 2
+\f1 \'c0\'ce
+\f0 )',60000);\
+INSERT INTO ROOMOPTION VALUES(002,'
+\f1 \'c1\'b6\'bd\'c4
+\f0 (
+\f1 \'bc\'ba\'c0\'ce
+\f0 2
+\f1 \'c0\'ce
+\f0 ) + 
+\f1 \'c1\'b6\'bd\'c4
+\f0 (
+\f1 \'c0\'af\'be\'c6
+\f0 1
+\f1 \'c0\'ce
+\f0 )',70000);\
+INSERT INTO ROOMOPTION VALUES(003,'
+\f1 \'bf\'cd\'c0\'ce\'bc\'bc\'c6\'ae
+\f0 (2
+\f1 \'c0\'ce
+\f0 )',70000);\
+INSERT INTO ROOMOPTION VALUES(004,'
+\f1 \'c8\'a3\'c5\'da
+\f0  
+\f1 \'b6\'f3\'bf\'ee\'c1\'f6\'c6\'e0
+\f0  
+\f1 \'b9\'ab\'c1\'a6\'c7\'d1
+\f0 (2
+\f1 \'c0\'ce
+\f0 )',80000);\
+INSERT INTO ROOMOPTION VALUES(005,'
+\f1 \'c1\'b6\'bd\'c4
+\f0 (
+\f1 \'bc\'ba\'c0\'ce
+\f0 2
+\f1 \'c0\'ce
+\f0 ) + 
+\f1 \'bf\'cd\'c0\'ce\'bc\'bc\'c6\'ae
+\f0 (2
+\f1 \'c0\'ce
+\f0 )',125000);\
+INSERT INTO ROOMOPTION VALUES(006,'
+\f1 \'c1\'b6\'bd\'c4
+\f0 (
+\f1 \'bc\'ba\'c0\'ce
+\f0 2
+\f1 \'c0\'ce
+\f0 ) + 
+\f1 \'c8\'a3\'c5\'da
+\f0  
+\f1 \'b6\'f3\'bf\'ee\'c1\'f6\'c6\'e0
+\f0  
+\f1 \'b9\'ab\'c1\'a6\'c7\'d1
+\f0 (2
+\f1 \'c0\'ce
+\f0 )',135000);\
+\
+INSERT INTO ROOMINFORMATION VALUES(101,'
+\f1 \'bd\'ba\'c5\'c4\'b4\'d9\'b5\'e5
+\f0  
+\f1 \'b4\'f5\'ba\'ed
+\f0 ','12
+\f1 \'c6\'f2\'c7\'fc
+\f0 ','
+\f1 \'b8\'b6\'bf\'ee\'c6\'be\'ba\'e4
+\f0 ',200000);\
+INSERT INTO ROOMINFORMATION VALUES(102,'
+\f1 \'bd\'ba\'c5\'c4\'b4\'d9\'b5\'e5
+\f0  
+\f1 \'b4\'f5\'ba\'ed
+\f0 ','12
+\f1 \'c6\'f2\'c7\'fc
+\f0 ','
+\f1 \'bd\'c3\'c6\'bc\'ba\'e4
+\f0 ',250000);\
+INSERT INTO ROOMINFORMATION VALUES(201,'
+\f1 \'c6\'d0\'b9\'d0\'b8\'ae
+\f0  
+\f1 \'bd\'ba\'c0\'a7\'c6\'ae
+\f0 ','18
+\f1 \'c6\'f2\'c7\'fc
+\f0 ','
+\f1 \'b8\'b6\'bf\'ee\'c6\'be\'ba\'e4
+\f0 ',300000);\
+INSERT INTO ROOMINFORMATION VALUES(202,'
+\f1 \'c6\'d0\'b9\'d0\'b8\'ae
+\f0  
+\f1 \'bd\'ba\'c0\'a7\'c6\'ae
+\f0 ','18
+\f1 \'c6\'f2\'c7\'fc
+\f0 ','
+\f1 \'bd\'c3\'c6\'bc\'ba\'e4
+\f0 ',350000);\
+INSERT INTO ROOMINFORMATION VALUES(301,'
+\f1 \'c7\'c1\'b8\'ae\'b9\'cc\'be\'ee
+\f0  
+\f1 \'bd\'ba\'c0\'a7\'c6\'ae
+\f0 ','24
+\f1 \'c6\'f2\'c7\'fc
+\f0 ','
+\f1 \'b8\'b6\'bf\'ee\'c6\'be\'ba\'e4
+\f0 ',500000);\
+INSERT INTO ROOMINFORMATION VALUES(302,'
+\f1 \'c7\'c1\'b8\'ae\'b9\'cc\'be\'ee
+\f0  
+\f1 \'bd\'ba\'c0\'a7\'c6\'ae
+\f0 ','24
+\f1 \'c6\'f2\'c7\'fc
+\f0 ','
+\f1 \'bd\'c3\'c6\'bc\'ba\'e4
+\f0 ',550000);\
+\
+INSERT INTO RESERVATION VALUES(220901101,101,'2022/09/01',001,1,260000);\
+INSERT INTO RESERVATION VALUES(220901202,202,'2022/09/01',002,2,420000);\
+INSERT INTO RESERVATION VALUES(220901301,301,'2022/09/01',006,3,635000);\
+\
+INSERT INTO RESERVATION VALUES(220902101,101,'2022/09/02',001,4,260000);\
+INSERT INTO RESERVATION VALUES(220902202,202,'2022/09/02',002,5,420000);\
+INSERT INTO RESERVATION VALUES(220902301,301,'2022/09/02',006,6,635000);\
+\
+INSERT INTO RESERVATION VALUES(220903101,101,'2022/09/03',001,7,260000);\
+INSERT INTO RESERVATION VALUES(220903202,202,'2022/09/03',002,8,420000);\
+INSERT INTO RESERVATION VALUES(220903301,301,'2022/09/03',006,9,635000);\
+\
+INSERT INTO RESERVATION VALUES(220904101,101,'2022/09/04',001,10,260000);\
+INSERT INTO RESERVATION VALUES(220904202,202,'2022/09/04',002,11,420000);\
+INSERT INTO RESERVATION VALUES(220904301,301,'2022/09/04',006,1,635000);\
+\
+INSERT INTO RESERVATION VALUES(220905101,101,'2022/09/05',001,2,260000);\
+INSERT INTO RESERVATION VALUES(220905202,202,'2022/09/05',002,3,420000);\
+INSERT INTO RESERVATION VALUES(220905301,301,'2022/09/05',006,4,635000);\
+\
+INSERT INTO RESERVATION VALUES(220906101,101,'2022/09/06',001,5,260000);\
+INSERT INTO RESERVATION VALUES(220906202,202,'2022/09/06',002,6,420000);\
+INSERT INTO RESERVATION VALUES(220906301,301,'2022/09/06',006,7,635000);\
+\
+INSERT INTO RESERVATION VALUES(220907101,101,'2022/09/07',001,8,260000);\
+INSERT INTO RESERVATION VALUES(220907202,202,'2022/09/07',002,9,420000);\
+INSERT INTO RESERVATION VALUES(220907301,301,'2022/09/07',006,10,635000);\
+\
+INSERT INTO RESERVATION VALUES(220908101,101,'2022/09/08',001,4,260000);\
+INSERT INTO RESERVATION VALUES(220908202,202,'2022/09/08',002,1,420000);\
+INSERT INTO RESERVATION VALUES(220908301,301,'2022/09/08',006,20,635000);\
+\
+INSERT INTO RESERVATION VALUES(220909101,101,'2022/09/09',001,14,260000);\
+INSERT INTO RESERVATION VALUES(220909202,202,'2022/09/09',002,15,420000);\
+INSERT INTO RESERVATION VALUES(220909301,301,'2022/09/09',006,20,635000);\
+\
+INSERT INTO RESERVATION VALUES(220910101,101,'2022/09/10',001,16,260000);\
+INSERT INTO RESERVATION VALUES(220910202,202,'2022/09/10',002,17,420000);\
+INSERT INTO RESERVATION VALUES(220910301,301,'2022/09/10',006,20,635000);\
+\
+INSERT INTO RESERVATION VALUES(220911101,101,'2022/09/11',001,18,260000);\
+INSERT INTO RESERVATION VALUES(220911202,202,'2022/09/11',002,19,420000);\
+INSERT INTO RESERVATION VALUES(220911301,301,'2022/09/11',006,20,635000);\
+\
+INSERT INTO RESERVATION VALUES(220912101,101,'2022/09/12',001,3,260000);\
+INSERT INTO RESERVATION VALUES(220912202,202,'2022/09/12',002,4,420000);\
+INSERT INTO RESERVATION VALUES(220912301,301,'2022/09/12',006,20,635000);\
+\
+INSERT INTO RESERVATION VALUES(220913101,101,'2022/09/13',001,4,260000);\
+INSERT INTO RESERVATION VALUES(220913202,202,'2022/09/13',002,5,420000);\
+INSERT INTO RESERVATION VALUES(220913301,301,'2022/09/13',006,20,635000);\
+\
+INSERT INTO RESERVATION VALUES(220914101,101,'2022/09/14',001,1,260000);\
+INSERT INTO RESERVATION VALUES(220914202,202,'2022/09/14',002,2,420000);\
+INSERT INTO RESERVATION VALUES(220914301,301,'2022/09/14',006,20,635000);\
+\
+INSERT INTO RESERVATION VALUES(220915101,101,'2022/09/15',001,9,260000);\
+INSERT INTO RESERVATION VALUES(220915202,202,'2022/09/15',002,10,420000);\
+INSERT INTO RESERVATION VALUES(220915301,301,'2022/09/15',006,20,635000);\
+\
+INSERT INTO RESERVATION VALUES(220916101,101,'2022/09/16',001,11,260000);\
+INSERT INTO RESERVATION VALUES(220916202,202,'2022/09/16',002,12,420000);\
+INSERT INTO RESERVATION VALUES(220916301,301,'2022/09/16',006,20,635000);\
+\
+INSERT INTO RESERVATION VALUES(220917101,101,'2022/09/17',001,15,260000);\
+INSERT INTO RESERVATION VALUES(220917202,202,'2022/09/17',002,12,420000);\
+INSERT INTO RESERVATION VALUES(220917301,301,'2022/09/17',006,20,635000);\
+\
+INSERT INTO PAY VALUES('P220901101','PW102',000001,220901101);\
+INSERT INTO PAY VALUES('P220901202','PW102',000001,220901202);\
+INSERT INTO PAY VALUES('P220901301','PW102',000001,220901301);\
+\
+INSERT INTO PAY VALUES('P220902101','PW102',000001,220902101);\
+INSERT INTO PAY VALUES('P220902202','PW102',000001,220902202);\
+INSERT INTO PAY VALUES('P220902301','PW102',000001,220902301);\
+\
+INSERT INTO PAY VALUES('P220903101','PW102',000001,220903101);\
+INSERT INTO PAY VALUES('P220903202','PW102',000001,220903202);\
+INSERT INTO PAY VALUES('P220903301','PW102',000001,220903301);\
+\
+INSERT INTO PAY VALUES('P220904101','PW102',000001,220904101);\
+INSERT INTO PAY VALUES('P220904202','PW102',000001,220904202);\
+INSERT INTO PAY VALUES('P220904301','PW102',000001,220904301);\
+\
+INSERT INTO PAY VALUES('P220905101','PW102',000001,220905101);\
+INSERT INTO PAY VALUES('P220905202','PW102',000001,220905202);\
+INSERT INTO PAY VALUES('P220905301','PW102',000001,220905301);\
+\
+INSERT INTO PAY VALUES('P220906101','PW102',000001,220906101);\
+INSERT INTO PAY VALUES('P220906202','PW102',000001,220906202);\
+INSERT INTO PAY VALUES('P220906301','PW102',000001,220906301);\
+\
+INSERT INTO PAY VALUES('P220907101','PW102',000001,220907101);\
+INSERT INTO PAY VALUES('P220907202','PW102',000001,220907202);\
+INSERT INTO PAY VALUES('P220907301','PW102',000001,220907301);\
+\
+INSERT INTO PAY VALUES('P220908101','PW102',000001,220908101);\
+INSERT INTO PAY VALUES('P220908202','PW102',000001,220908202);\
+INSERT INTO PAY VALUES('P220908301','PW102',000001,220908301);\
+\
+INSERT INTO PAY VALUES('P220909101','PW102',000001,220909101);\
+INSERT INTO PAY VALUES('P220909202','PW102',000001,220909202);\
+INSERT INTO PAY VALUES('P220909301','PW102',000001,220909301);\
+\
+INSERT INTO PAY VALUES('P220910101','PW102',000001,220910101);\
+INSERT INTO PAY VALUES('P220910202','PW102',000001,220910202);\
+INSERT INTO PAY VALUES('P220910301','PW102',000001,220910301);\
+\
+INSERT INTO PAY VALUES('P220911101','PW102',000001,220911101);\
+INSERT INTO PAY VALUES('P220911202','PW102',000001,220911202);\
+INSERT INTO PAY VALUES('P220911301','PW102',000001,220911301);\
+\
+INSERT INTO PAY VALUES('P220912101','PW102',000001,220912101);\
+INSERT INTO PAY VALUES('P220912202','PW102',000001,220912202);\
+INSERT INTO PAY VALUES('P220912301','PW102',000001,220912301);\
+\
+INSERT INTO PAY VALUES('P220913101','PW102',000001,220913101);\
+INSERT INTO PAY VALUES('P220913202','PW102',000001,220913202);\
+INSERT INTO PAY VALUES('P220913301','PW102',000001,220913301);\
+\
+INSERT INTO PAY VALUES('P220914101','PW102',000001,220914101);\
+INSERT INTO PAY VALUES('P220914202','PW102',000001,220914202);\
+INSERT INTO PAY VALUES('P220914301','PW102',000001,220914301);\
+\
+INSERT INTO PAY VALUES('P220915101','PW102',000001,220915101);\
+INSERT INTO PAY VALUES('P220915202','PW102',000001,220915202);\
+INSERT INTO PAY VALUES('P220915301','PW102',000001,220915301);\
+\
+INSERT INTO PAY VALUES('P220916101','PW102',000001,220916101);\
+INSERT INTO PAY VALUES('P220916202','PW102',000001,220916202);\
+INSERT INTO PAY VALUES('P220916301','PW102',000001,220916301);\
+\
+INSERT INTO PAY VALUES('P220917101','PW102',000001,220917101);\
+INSERT INTO PAY VALUES('P220917202','PW102',000001,220917202);\
+INSERT INTO PAY VALUES('P220917301','PW102',000001,220917301);\
+\
+Commit;\
+---------------------------------------------------------------------------------}
