@@ -50,7 +50,7 @@ class connection { // 연결을 위한 클래스
 } // 연결을 위한 클래스
 
 public class Login { // 로그인 되어 있는 화면, 로그 아웃 되어 있는 화면 보여주기 위한 클래스
-    public static void login() throws IOException, SQLException {
+    public static void login() throws IOException, SQLException, InterruptedException {
         while (true) { // 프로그램 종료시 끝
             if (member.CheckLogin) //로그인이 되어 있으면
                 loginon();
@@ -58,7 +58,7 @@ public class Login { // 로그인 되어 있는 화면, 로그 아웃 되어 있
         }
     }
 
-    public static void loginon() throws IOException, SQLException {
+    public static void loginon() throws IOException, SQLException, InterruptedException {
         connection.connect(); // db 연결
 
         while (member.CheckLogin == true) { // 로그인 되어 있는지 확인 변수가 true일 경우 반복

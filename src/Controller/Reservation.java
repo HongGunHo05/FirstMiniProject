@@ -19,7 +19,7 @@ class resMember {
 }
 
 public class Reservation {
-    public static void Reserve() throws IOException, SQLException {
+    public static void Reserve() throws IOException, SQLException, InterruptedException {
 
         System.out.print("원하는 날짜를 입력 하세요 : ");
         idate = br.readLine();

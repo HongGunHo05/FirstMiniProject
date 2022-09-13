@@ -20,8 +20,7 @@ public class Payment {
 
         System.out.println("카드 종류");
         while (rs.next()) {
-            System.out.println(rs.getString(1) + " " +
-                    rs.getString(2) + " " + rs.getString(3));
+            System.out.println(rs.getString(1) + " " + rs.getString(2) + " " + rs.getString(3));
             // 카드 번호, 종류, 할인률을 각 속성인덱스에 맞게 출력 시킨다
             arr[i] = Integer.parseInt(rs.getString(1)); // 배열에 카드 번호 저장
             i++;
@@ -91,20 +90,14 @@ public class Payment {
         }
     } // 카드 결제
 
-    public static void deposit() throws SQLException { // 무통장 입금
+    public static void deposit() throws SQLException, InterruptedException { // 무통장 입금
         System.out.println("고객님의 총 금액은 " + resMember.totalPrice + " 입니다.");
         System.out.println();
         System.out.println("입금 계좌번호 : (국민) 943202-00-000000 \t 김덕배");
         System.out.println("입금 대기 중 입니다.");
 
-        Timer timer = new Timer(); // 입금 되기 5초 간격을 두어 입금 되었다고 간주
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println("입금 확인 되었습니다.");
-            }
-        }, 0, 5000);
-
+        Thread.sleep(5000);
+        System.out.println("입금되었습니다.");
         tableIn(); // 지금까지 입력한 것을 테이블에 삽입 하기 위한 메소드 호출
 
     } // 무통장 입금

@@ -82,7 +82,7 @@ RE_PRICE NUMBER(20)\
 -------------------------------------------------------------------------\
 CREATE TABLE PAY(\
 P_NO VARCHAR2(20) CONSTRAINT P_NO_pk PRIMARY key, \
-PW_NO varchar2(20) not null CONSTRAINT P_PW_NO_fk REFERENCES PAYWITH(PW_NO),\
+PW_NO varchar2(20) CONSTRAINT P_PW_NO_fk REFERENCES PAYWITH(PW_NO),\
 E_NO varchar2(20) not null CONSTRAINT P_E_NO_fk REFERENCES EMP(E_NO),\
 RE_NO varchar2(20) not null CONSTRAINT P_RE_NO_fk REFERENCES RESERVATION(RE_NO)\
 );\
